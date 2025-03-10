@@ -23,18 +23,18 @@ const Navbar = (props) => {
             </div>
             <div className="flex flex-row items-center justify-center">
                 <div className="flex flex-row self-center items-center justify-center">
-                    <button className="text-white cursor-pointer ml-4 mx-2 border-1 p-2 rounded-2xl" onClick={toggleNotifications}>
+                    <button className="text-white cursor-pointer ml-4 mx-2 border-1 p-2 rounded-2xl" onClick={() => setShowNotifications(!showNotifications)}>
                         <FaBell />
                         {showNotifications && (
-          <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg p-4">
-            <h3 className="font-bold mb-2">Notifications</h3>
-            <ul>
-              {notifications.slice(0, 5).map((notification, index) => (
-                <li key={index} className="text-sm text-gray-700 border-b py-1">{notification}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+                        <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg p-4">
+                            <h3 className="font-bold mb-2 text-blue-400">Notifications</h3>
+                            <ul>
+                            {notifications.slice(0, 5).map((notification, index) => (
+                                <li key={index} className="text-sm text-gray-700 border-b py-1">{notification.notification}</li>
+                            ))}
+                            </ul>
+                        </div>
+                        )}
                     </button>
                     
                     <a href="/account" className="text-white no-underline ml-4 border-1 p-2 rounded-2xl">
