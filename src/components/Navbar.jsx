@@ -1,14 +1,14 @@
 // Classname , semester , branch , section , stream , days , from time , to time 
 // subject staff id isavailabe
 
-import { OverlayPanel } from 'primereact/overlaypanel';
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FaSignOutAlt } from 'react-icons/fa';
 import { FaBell, FaUser } from "react-icons/fa6";
 
 const Navbar = (props) => {
     const op = useRef(null);
     const notifications = [{notification:"Notification 1"}, {notification:"Notification 2"}, {notification:"Notification 3"}];
+    const [showNotifications, setShowNotifications] = useState(false);
 
     const toggleNotifications = (event) => {
         op.current.toggle(event);
@@ -25,15 +25,18 @@ const Navbar = (props) => {
                 <div className="flex flex-row self-center items-center justify-center">
                     <button className="text-white cursor-pointer ml-4 mx-2 border-1 p-2 rounded-2xl" onClick={toggleNotifications}>
                         <FaBell />
+                        {showNotifications && (
+          <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg p-4">
+            <h3 className="font-bold mb-2">Notifications</h3>
+            <ul>
+              {notifications.slice(0, 5).map((notification, index) => (
+                <li key={index} className="text-sm text-gray-700 border-b py-1">{notification}</li>
+              ))}
+            </ul>
+          </div>
+        )}
                     </button>
-                    <OverlayPanel ref={op}>
-                        <div className='flex flex-col gap-2'>
-                        {notifications.map((notification, index) => (
-                            // <Notification index={index} notification={notification.notification} key={index} />
-                            <span key={index}>{notification.notification}</span>
-                        ))}
-                        </div>
-                    </OverlayPanel>
+                    
                     <a href="/account" className="text-white no-underline ml-4 border-1 p-2 rounded-2xl">
                         <FaUser />
                     </a>

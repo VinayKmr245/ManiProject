@@ -1,40 +1,87 @@
+import { useState } from "react";
 import myImage from "../assets/myImage.png";
-import Navbar from "./Navbar";
+export default function UserProfile() {
+  const [user, setUser] = useState({
+    name: "John Doe",
+    email: "johndoe@example.com",
+    phone: "123-456-7890",
+    address: "123 Main St, City, Country",
+  });
 
-const UserProfile = ()=>{
-    return(
-        <>
-        <Navbar title="User Profile"/>
-        <div className ="flex flex-row justify-between items-center h-full p-8">
-            <div className="flex flex-col justify-center h-100 w-1/3 items-center shadow-2xl">
-                {/* <h1>left div</h1> */}
-                <img src={myImage} alt="user" className="border-1 rounded-full h-32 w-32 m-4"/>
-                <div className="flex flex-col gap-4">
-                    <h1>Username</h1>
-                    <h1>Designation</h1>
-                    <h1>Branch</h1>
-                    <h1>Section</h1>
-                    <h1>Email</h1>
-                </div>
-            </div >
-            <div className="flex flex-col justify-center items-center">
-                <div >
-                    <h1 className="text-2xl m-4 p-4">Change Details</h1>
-                    <div className="flex flex-col gap-4 mr-120">
-                        <input type="text" placeholder="Username" className="border-1 p-4 rounded-sm"/>
-                        <input type="text" placeholder="Designation" className="border-1 p-4 rounded-sm"/>
-                        <input type="text" placeholder="Branch" className="border-1 p-4 rounded-sm"/>
-                        <input type="text" placeholder="Section" className="border-1 p-4 rounded-sm"/>
-                        <input type="text" placeholder="Email" className="border-1 p-4 rounded-sm"/>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2">
-                            Submit
-                        </button>
-                    </div>
-                </div>
-            </div>
+  const [formData, setFormData] = useState({
+    email: user.email,
+    phone: user.phone,
+    address: user.address,
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setUser((prevUser) => ({ ...prevUser, ...formData }));
+  };
+
+  return (
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="bg-white shadow-lg rounded-lg p-6 w-2/3 flex">
+        {/* Left Side - User Info */}
+        <div className="w-1/3 flex flex-col items-center border-r p-4">
+          <img
+            src={myImage}
+            alt="Profile"
+            className="w-32 h-32 rounded-full mb-4 border"
+          />
+          <h2 className="text-xl font-bold">{user.name}</h2>
+          <p className="text-gray-600">{user.email}</p>
+          <p className="text-gray-600">{user.phone}</p>
+          <p className="text-gray-600 text-center">{user.address}</p>
         </div>
-        </>
-    )
-}
 
-export default UserProfile;
+        {/* Right Side - Edit Form */}
+        <div className="w-2/3 p-4">
+          <h2 className="text-lg font-bold mb-4">Edit Profile</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block font-medium">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+              />
+            </div>
+            <div>
+              <label className="block font-medium">Phone</label>
+              <input
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+              />
+            </div>
+            <div>
+              <label className="block font-medium">Address</label>
+              <textarea
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+              />
+            </div>
+            <button
+              type="submit"
+              className="mt-3 p-2 bg-blue-500 text-white rounded w-full"
+            >
+              Save Changes
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
